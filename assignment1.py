@@ -42,12 +42,14 @@ def nearest_neighbor_recursion(points):
                 midPoints.append(points[k])
         midPoints.sort(key = lambda midPoints: float(midPoints[1]))
         for i in range(len(midPoints)):
-            j = 0
-            while (j < 8 and j < len(midPoints)):
+            j = i + 1
+            y = 0
+            while (y < 8 and j < len(midPoints)):
                 if(dist(midPoints[i],midPoints[j]) < min_distance and i != j):
                     min_distance = dist(midPoints[i],midPoints[j])
                     #print ("The points found are %s and %s and the distance is: %5.3f" %(midPoints[i],midPoints[j],min_distance))
                 j = j + 1
+                y = y + 1
     else:
         min_distance = brute_force_nearest_neighbor(points)
 

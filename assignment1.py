@@ -36,7 +36,7 @@ def nearest_neighbor_recursion(points):
         else:
             min_distance = minRight
         for k in range(len(points)):
-            if(float(points[k][0]) < midValue-min_distance or float(points[k][0]) > midValue + min_distance):
+            if(float(points[k][0]) > midValue-min_distance and float(points[k][0]) < midValue + min_distance):
                 midPoints.append(points[k])
         midPoints.sort(key = lambda midPoints: float(midPoints[1]))
         for i in range(len(midPoints)):

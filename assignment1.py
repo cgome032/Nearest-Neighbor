@@ -1,6 +1,7 @@
 import sys
 from math import sqrt
 import re
+import timeit
 
 pointRE=re.compile("(-?\\d+.?\\d*)\\s(-?\\d+.?\\d*)")
 
@@ -13,15 +14,12 @@ def nearest_neighbor(points):
 
 #Brute force version of the nearest neighbor algorithm, O(n**2)
 def brute_force_nearest_neighbor(points):
-    #print("The length of the list: %i" %len(points))
-    #print(points)
     min_distance=dist(points[0],points[1])
     for i in range(len(points)):
         j = i + 1
         while j< len(points):
             if(dist(points[i],points[j]) < min_distance):
                 min_distance = dist(points[i],points[j])
-                #print ("The points found are %s and %s and the distance is: %5.3f" %(points[i],points[j],min_distance))
             j = j + 1
     return min_distance
 
@@ -51,7 +49,19 @@ def nearest_neighbor_recursion(points):
                 j = j + 1
                 y = y + 1
     else:
-        min_distance = brute_force_nearest_neighbor(points)
+        if(len(points) == 2):
+            min_distance = dist(points[0],points[1])
+        else:
+            min_distance1 = dist(points[0],points[1])
+            min_distance2 = dist(points[0],points[2])
+            min_distance3 = dist(points[1],points[2])
+            if(min_distance1 <= min_distance2 and min_distance1 <= min_distance3):
+                min_distance = min_distance1
+            if(min_distance2 <= min_distance1 and min_distance2 <= min_distance3):
+                min_distance = min_distance2
+            if(min_distance3 <= min_distance1 and min_distance3 <= min_distance2):
+                min_distance = min_distance3
+
 
     return min_distance
 
@@ -77,13 +87,24 @@ def main(filename,algorithm):
     algorithm=algorithm[1:]
     points=read_file(filename)
     if algorithm =='dc':
+        start = timeit.default_timer()
         print("Divide and Conquer: ", nearest_neighbor(points))
+        stop = timeit.default_timer()
+        print(stop - start)
     if algorithm == 'bf':
+        start = timeit.default_timer()
         print("Brute Force: ", brute_force_nearest_neighbor(points))
+        stop = timeit.default_timer()
+        print(stop-start)
     if algorithm == 'both':
+        start = timeit.default_timer()
         print("Divide and Conquer: ", nearest_neighbor(points))
+        stop = timeit.default_timer()
+        print(stop - start)
+        start = timeit.default_timer()
         print("Brute Force: ", brute_force_nearest_neighbor(points))
-
+        stop = timeit.default_timer()
+        print(stop-start)
 if __name__ == '__main__':
     if len(sys.argv) < 3:
         print("python assignment1.py -<dc|bf|both> <input_file>")

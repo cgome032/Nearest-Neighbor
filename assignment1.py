@@ -6,7 +6,7 @@ import timeit
 pointRE=re.compile("(-?\\d+.?\\d*)\\s(-?\\d+.?\\d*)")
 
 def dist(p1, p2):
-    return sqrt(pow(float(p1[0])-float(p2[0]),2) + pow(float(p1[1])-float(p2[1]),2))
+    return sqrt(pow(p1[0]-p2[0],2) + pow(p1[1]-p2[1],2))
 
 #Run the divide-and-conquor nearest neighbor
 def nearest_neighbor(points):
@@ -31,19 +31,19 @@ def nearest_neighbor_recursion(points):
         midpoint = len(points)//2
         minLeft = nearest_neighbor_recursion(points[:midpoint])
         minRight = nearest_neighbor_recursion(points[midpoint:])
-        midValue = float(points[midpoint][0])
+        midValue = points[midpoint][0]
         if(minLeft < minRight):
             min_distance = minLeft
         else:
             min_distance = minRight
         for k in range(len(points)):
-            if(float(points[k][0]) > midValue-min_distance and float(points[k][0]) < midValue + min_distance):
+            if(points[k][0] > midValue-min_distance and points[k][0] < midValue + min_distance):
                 midPoints.append(points[k])
-        midPoints.sort(key = lambda midPoints: float(midPoints[1]))
+        midPoints.sort(key = lambda midPoints: midPoints[1])
         for i in range(len(midPoints)):
             j = i + 1
             y = 0
-            while (y < 8 and j < len(midPoints)):
+            while (y < 7 and j < len(midPoints)):
                 if(dist(midPoints[i],midPoints[j]) < min_distance and i != j):
                     min_distance = dist(midPoints[i],midPoints[j])
                     #print ("The points found are %s and %s and the distance is: %5.3f" %(midPoints[i],midPoints[j],min_distance))
@@ -77,10 +77,10 @@ def read_file(filename):
         line = line.strip()
         point_match=pointRE.match(line)
         if point_match:
-            x = point_match.group(1)
-            y = point_match.group(2)
+            x = float(point_match.group(1))
+            y = float(point_match.group(2))
             points.append((x,y))
-    points.sort(key = lambda points: float(points[0]))
+    points.sort(key = lambda points: points[0])
     #print(points)
     return points
 

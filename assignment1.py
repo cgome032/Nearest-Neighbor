@@ -27,7 +27,8 @@ def nearest_neighbor_recursion(points):
     min_distance=0
     midPoints = []
     if(len(points) > 3):
-        midpoint = len(points)/2
+        #midpoint = len(points)/2
+        midpoint = len(points)//2
         minLeft = nearest_neighbor_recursion(points[:midpoint])
         minRight = nearest_neighbor_recursion(points[midpoint:])
         midValue = float(points[midpoint][0])

@@ -89,25 +89,46 @@ def read_file(filename):
 def main(filename,algorithm):
     algorithm=algorithm[1:]
     points=read_file(filename)
+    inputFile = filename[:-4]
+    inputFile = inputFile + "_distance.txt"
+    outputFile = open(inputFile,'w')
     if algorithm =='dc':
         start = timeit.default_timer()
-        print("Divide and Conquer: ", nearest_neighbor(points))
+        min_distance = nearest_neighbor(points)
+        print("Divide and Conquer: ", min_distance)
         stop = timeit.default_timer()
         print(stop - start)
+        outputFile.write(str(min_distance))
+        outputFile.write('\n')
+
     if algorithm == 'bf':
         start = timeit.default_timer()
-        print("Brute Force: ", brute_force_nearest_neighbor(points))
+        min_distance = brute_force_nearest_neighbor(points)
+        print("Brute Force: ", min_distance)
         stop = timeit.default_timer()
         print(stop-start)
+        outputFile.write(str(min_distance))
     if algorithm == 'both':
+        # Divide and Conquer method
         start = timeit.default_timer()
-        print("Divide and Conquer: ", nearest_neighbor(points))
+        min_distance = nearest_neighbor(points)
+        print("Divide and Conquer: ", min_distance)
         stop = timeit.default_timer()
         print(stop - start)
+        outputFile.write('Divide and Conquer: ')
+        outputFile.write(str(min_distance))
+        outputFile.write('\n')
+
+        # Brute Force method
         start = timeit.default_timer()
-        print("Brute Force: ", brute_force_nearest_neighbor(points))
+        min_distance = brute_force_nearest_neighbor(points)
+        print("Brute Force: ", min_distance)
         stop = timeit.default_timer()
         print(stop-start)
+        outputFile.write('Brute Force: ')
+        outputFile.write(str(min_distance))
+        outputFile.write('\n')
+    outputFile.close()
 if __name__ == '__main__':
     if len(sys.argv) < 3:
         print("python assignment1.py -<dc|bf|both> <input_file>")

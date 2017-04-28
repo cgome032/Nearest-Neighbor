@@ -15,7 +15,7 @@ def nearest_neighbor(points):
 #Brute force version of the nearest neighbor algorithm, O(n**2)
 def brute_force_nearest_neighbor(points):
     min_distance=dist(points[0],points[1])
-    for i in range(len(points)):
+    for i in range(len(points)//2):
         j = i + 1
         while j< len(points):
             if(dist(points[i],points[j]) < min_distance):
@@ -26,7 +26,7 @@ def brute_force_nearest_neighbor(points):
 def nearest_neighbor_recursion(points):
     min_distance=0
     midPoints = []
-    if(len(points) > 3):
+    if(len(points) > 10):
         #midpoint = len(points)/2
         midpoint = len(points)//2
         minLeft = nearest_neighbor_recursion(points[:midpoint])
@@ -50,6 +50,7 @@ def nearest_neighbor_recursion(points):
                 j = j + 1
                 y = y + 1
     else:
+        """
         if(len(points) == 2):
             min_distance = dist(points[0],points[1])
         else:
@@ -62,7 +63,8 @@ def nearest_neighbor_recursion(points):
                 min_distance = min_distance2
             if(min_distance3 <= min_distance1 and min_distance3 <= min_distance2):
                 min_distance = min_distance3
-
+        """
+        min_distance = brute_force_nearest_neighbor(points)
 
     return min_distance
 
